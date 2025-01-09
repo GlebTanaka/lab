@@ -36,30 +36,50 @@ public class LinkedList {
     length++; // increment the length
   }
 
-  
   // prepend
+  public void prepend(int value) {
+    Node newNode = new Node(value);
+    if (head == null) {
+      head = newNode;
+      tail = newNode;
+    } else {
+      newNode.next = head;
+      head = newNode;
+    }
+    length++;
+  }
 
   // insert
 
   // remove last element and return it
   public Node removeLast() {
     if (head == null) { // Empty List
-      return null;
+        return null;
     }
+    
+    if (head == tail) { // Single element
+        Node removedNode = head;
+        head = null;
+        tail = null;
+        length--;
+        return removedNode;
+    }
+
     Node current = head;
-    Node secondToLast = head;
+    Node previous = null;
+
+    // Traverse to find the last and second-to-last nodes
     while (current.next != null) {
-      secondToLast = current;
-      current = current.next;
+        previous = current;
+        current = current.next;
     }
-    tail = secondToLast;
+
+    // Update the second-to-last node to be the new tail
+    tail = previous;
     tail.next = null;
-    length--; // Decrement the length
-    if (length == 0) { // Single element
-      head = null;
-      tail = null;
-    }
-    return current;
+    length--;
+
+    return current; // Return the removed node
   }
 
   public void printList() {
