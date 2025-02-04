@@ -113,6 +113,85 @@ public class DoublyLinkedList {
         return removedNode;
     }
 
+    public Node removeAtIndex(int index) {
+        // Step 1: Check if index is out of bounds
+        if (index < 0 || index >= length) {
+            return null; // Invalid index
+        }
+
+        // Step 2: Handle edge cases for removing the first or last node
+        if (index == 0) {
+            return removeFirst(); // Use removeFirst() for index 0
+        }
+
+        if (index == length - 1) {
+            return removeLast(); // Use removeLast() for the last index
+        }
+
+        // Step 3: Find the node at the specified index
+        Node nodeToRemove = getAtIndex(index);
+        if (nodeToRemove == null) {
+            return null; // Safeguard in case getAtIndex unexpectedly fails
+        }
+
+        // Step 4: Update the previous and next nodes to skip over the node to remove
+        Node prevNode = nodeToRemove.prev;
+        Node nextNode = nodeToRemove.next;
+
+        if (prevNode != null) {
+            prevNode.next = nextNode; // Update the next pointer of the previous node
+        }
+
+        if (nextNode != null) {
+            nextNode.prev = prevNode; // Update the prev pointer of the next node
+        }
+
+        // Step 5: Disconnect the node from the list
+        nodeToRemove.prev = null;
+        nodeToRemove.next = null;
+
+        // Step 6: Decrement the length of the list
+        length--;
+
+        // Step 7: Return the removed node
+        return nodeToRemove;
+    }
+
+    public Node removeAtIndexOnePointer(int index) {
+        // Step 1: Check if index is out of bounds
+        if (index < 0 || index >= length) {
+            return null; // Invalid index
+        }
+
+        // Step 2: Handle edge cases for first or last node
+        if (index == 0) {
+            return removeFirst(); // Use existing method to remove the first node
+        }
+        if (index == length - 1) {
+            return removeLast(); // Use existing method to remove the last node
+        }
+
+        // Step 3: Use getAtIndex to get the node at the specified index
+        Node nodeToRemove = getAtIndex(index);
+        if (nodeToRemove == null) {
+            return null; // Safeguard in case getAtIndex unexpectedly fails
+        }
+
+        // Step 4: Update the pointers to remove the node
+        nodeToRemove.prev.next = nodeToRemove.next;  // Link previous node to the next node
+        nodeToRemove.next.prev = nodeToRemove.prev;  // Link next node to the previous node
+
+        // Step 5: Disconnect the node to be removed
+        nodeToRemove.prev = null;
+        nodeToRemove.next = null;
+
+        // Step 6: Decrement the length of the list
+        length--;
+
+        // Step 7: Return the removed node
+        return nodeToRemove;
+    }
+
     public Node getAtIndex(int index) {
         // Step 1: Check if the index is out of bounds
         if (index < 0 || index >= length) {
@@ -152,6 +231,50 @@ public class DoublyLinkedList {
         // Step 3: Update the node's value
         nodeToUpdate.value = value;
         return true; // Update was successful, return true
+    }
+
+    public boolean insertAtIndex(int index, int value) {
+        // Step 1: Check if the index is valid
+        if (index < 0 || index > length) {
+            return false; // Index is out of bounds
+        }
+
+        // Step 2: Handle inserting at the beginning of the list
+        if (index == 0) {
+            prepend(value);
+            return true;
+        }
+
+        // Step 3: Handle inserting at the end of the list
+        if (index == length) {
+            append(value);
+            return true;
+        }
+
+        // Step 4: For all other cases, find the node at the specified index - 1
+        Node prevNode = getAtIndex(index - 1); // Get the node at index - 1
+        if (prevNode == null) {
+            return false; // Safeguard in case getAtIndex unexpectedly fails
+        }
+
+        // Step 5: Create a new node with the given value
+        Node newNode = new Node(value);
+
+        // Step 6: Update the pointers to insert the new node at the correct position
+        Node nextNode = prevNode.next;  // The node currently at the given index
+        newNode.next = nextNode;        // Link new node to the next node
+        newNode.prev = prevNode;        // Link new node back to the previous node
+
+        prevNode.next = newNode;        // Link previous node to the new node
+        if (nextNode != null) {
+            nextNode.prev = newNode;    // Link the next node back to the new node
+        }
+
+        // Step 7: Increment the length of the list
+        length++;
+
+        // Step 8: Return true to indicate success
+        return true;
     }
 
     public void printList() {
