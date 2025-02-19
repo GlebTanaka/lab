@@ -25,7 +25,7 @@ public class Stack {
     }
 
     public Node pop() {
-        if (top == null) {
+        if (isEmpty()) {  // Use isEmpty() instead of top == null
             System.out.println("Stack is empty. Cannot pop.");
             return null; // Return null to signify an empty stack
         }
@@ -45,10 +45,10 @@ public class Stack {
     }
 
     public void getTop() {
-        if (top != null) {
-            System.out.println(top.value);
-        } else {
+        if (isEmpty()) {
             System.out.println("Stack is empty.");
+        } else {
+            System.out.println(top.value);
         }
     }
 
@@ -57,7 +57,7 @@ public class Stack {
     }
 
     public int peek() {
-        if (top == null) {
+        if (isEmpty()) {
             throw new IllegalStateException("Stack is empty.");
         }
         return top.value;
