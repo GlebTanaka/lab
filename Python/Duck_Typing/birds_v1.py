@@ -1,3 +1,5 @@
+# birds_v1.py - INHERITANCE BIRDS
+
 class Duck:
     def swim(self):
         print("Duck is swimming gracefully.")
