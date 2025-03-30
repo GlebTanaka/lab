@@ -8,13 +8,45 @@ public class BinarySearchTree
         public int Data { get; set; }
         public Node Left { get; set; }
         public Node Right { get; set; }
+        private Node Root { get; } // Reference to the root node (used for IsRoot)
 
         // Constructor to initialize the node
-        public Node(int data)
+        public Node(int data, Node root = null)
         {
             Data = data;
             Left = null;
             Right = null;
+            Root = root;
+        }
+
+        // Helper method: Check if the node has a left child
+        public bool HasLeft()
+        {
+            return Left != null;
+        }
+
+        // Helper method: Check if the node has a right child
+        public bool HasRight()
+        {
+            return Right != null;
+        }
+
+        // Helper method: Check if the node is a leaf (has no children)
+        public bool IsLeaf()
+        {
+            return Left == null && Right == null;
+        }
+
+        // Helper method: Check if the node has any children
+        public bool HasChildren()
+        {
+            return Left != null || Right != null;
+        }
+
+        // Helper method: Check if the node is the root of the BST
+        public bool IsRoot()
+        {
+            return this == Root;
         }
     }
 
@@ -26,11 +58,50 @@ public class BinarySearchTree
     {
         root = null;
     }
+    
+    // Method to find the parent node of a given node
+    public Node ParentOf(Node current, Node searchNode)
+    {
+        return ParentOfRecursive(root, null, searchNode);
+    }
+
+    private Node ParentOfRecursive(Node current, Node parent, Node searchNode)
+    {
+        // Base case: if the current node is null, return null
+        if (current == null)
+        {
+            return null;
+        }
+
+        // If the current node matches the searchNode, return the parent
+        if (current == searchNode)
+        {
+            return parent;
+        }
+
+        // Recursively search in the left subtree
+        Node leftResult = ParentOfRecursive(current.Left, current, searchNode);
+        if (leftResult != null)
+        {
+            return leftResult;
+        }
+
+        // Recursively search in the right subtree
+        return ParentOfRecursive(current.Right, current, searchNode);
+    }
+
 
     // Insert a new value into the BST
     public void Insert(int value)
     {
-        root = InsertRecursively(root, value);
+        if (root == null)
+        {
+            root = new Node(value, root); // Initialize root reference
+        }
+        else
+        {
+            InsertRecursively(root, value);
+        }
     }
 
     private Node InsertRecursively(Node node, int value)
@@ -38,7 +109,7 @@ public class BinarySearchTree
         // If the tree is empty, create a new node
         if (node == null)
         {
-            return new Node(value);
+            return new Node(value, root); // Pass root reference when creating a new node
         }
 
         // Traverse the tree to find the correct position
@@ -106,6 +177,12 @@ public class BinarySearchTree
             InOrderTraversalRecursively(node.Right);
         }
     }
+
+    // Public accessor for the root to use for testing purposes
+    public Node GetRoot()
+    {
+        return root;
+    }
 }
 
 // Example usage
@@ -127,8 +204,22 @@ class Program
         // Perform in-order traversal (should print: 20 30 40 50 60 70 80)
         bst.InOrderTraversal();
 
-        // Search for elements
-        Console.WriteLine("Search 40: " + bst.Search(40)); // True
-        Console.WriteLine("Search 90: " + bst.Search(90)); // False
+        // Example for using helper methods
+        BinarySearchTree.Node root = bst.GetRoot();
+
+        if (root.IsRoot())
+        {
+            Console.WriteLine($"Node {root.Data} is the root of the tree.");
+        }
+
+        if (root.HasChildren())
+        {
+            Console.WriteLine($"Root node {root.Data} has children.");
+        }
+
+        if (root.Left != null && root.Left.IsLeaf())
+        {
+            Console.WriteLine($"Node {root.Left.Data} is a leaf node.");
+        }
     }
 }
