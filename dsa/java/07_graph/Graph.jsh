@@ -34,4 +34,39 @@ public class Graph {
         adjList.get(src).add(dest);
         adjList.get(dest).add(src);
     }
+
+    public boolean removeEdge(String src, String dest) {
+        // Check if both vertices exits
+        if (!adjList.containsKey(src) || !adjList.containsKey(dest)) {
+            return false; // One or both vertices do not exist
+        }
+
+        adjList.get(src).remove(dest);
+        adjList.get(dest).remove(src);
+        return true;
+    }
+
+    public boolean removeVertex(String vertex) {
+        // Check if the vertex exists
+        if (!adjList.containsKey(vertex)) {
+            return false; // Vertex doesn't exist, nothing to remove
+        }
+
+        // Remove the vertex from the adjacency lists of its neighbors
+        for (String neighbor : adjList.get(vertex)) {
+            adjList.get(neighbor).remove(vertex);
+        }
+
+        // Remove the vertex itself from the graph
+        adjList.remove(vertex);
+
+        return true; // Successfully removed the vertex
+    }
+
+    public void printGraph() {
+        for (String vertex : adjList.keySet()) {
+            System.out.print(vertex + " -> ");
+            System.out.println(adjList.get(vertex));
+        }
+    }
 }
