@@ -1,72 +1,69 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Graph {
+    public class Graph {
 
-    private HashMap<String, ArrayList<String>> adjList = new HashMap<>();
+        private HashMap<String, ArrayList<String>> adjList = new HashMap<>();
 
-    public boolean addVertex(String vertex) {
-        if (adjList.containsKey(vertex)) {
-            return false;
-        }
-        adjList.put(vertex, new ArrayList<>());
-        return true;
-    }
-
-    public boolean addEdge(String src, String dest) {
-        // Check if both vertices exist
-        if (!adjList.containsKey(src) || !adjList.containsKey(dest)) {
-            return false; // One or both vertices do not exist
+        // Vertex Operations
+        public boolean addVertex(String vertex) {
+            if (hasVertex(vertex)) {
+                return false;
+            }
+            adjList.put(vertex, new ArrayList<>());
+            return true;
         }
 
-        // Add the edge
-        adjList.get(src).add(dest);
-        adjList.get(dest).add(src);
-        return true; // Edge successfully added
-    }
-
-    public void addEdgeWithVertex(String src, String dest) {
-        // Add the vertices if they don't already exist
-        adjList.putIfAbsent(src, new ArrayList<>());
-        adjList.putIfAbsent(dest, new ArrayList<>());
-
-        // Add the edge
-        adjList.get(src).add(dest);
-        adjList.get(dest).add(src);
-    }
-
-    public boolean removeEdge(String src, String dest) {
-        // Check if both vertices exits
-        if (!adjList.containsKey(src) || !adjList.containsKey(dest)) {
-            return false; // One or both vertices do not exist
+        public boolean removeVertex(String vertex) {
+            if (!hasVertex(vertex)) {
+                return false;
+            }
+            for (String neighbor : adjList.get(vertex)) {
+                adjList.get(neighbor).remove(vertex);
+            }
+            adjList.remove(vertex);
+            return true;
         }
 
-        adjList.get(src).remove(dest);
-        adjList.get(dest).remove(src);
-        return true;
-    }
-
-    public boolean removeVertex(String vertex) {
-        // Check if the vertex exists
-        if (!adjList.containsKey(vertex)) {
-            return false; // Vertex doesn't exist, nothing to remove
+        // New Method: hasVertex
+        public boolean hasVertex(String vertex) {
+            return adjList.containsKey(vertex);
         }
 
-        // Remove the vertex from the adjacency lists of its neighbors
-        for (String neighbor : adjList.get(vertex)) {
-            adjList.get(neighbor).remove(vertex);
+        // Edge Operations
+        public boolean addEdge(String src, String dest) {
+            if (!hasVertex(src) || !hasVertex(dest)) {
+                return false;
+            }
+            adjList.get(src).add(dest);
+            adjList.get(dest).add(src);
+            return true;
         }
 
-        // Remove the vertex itself from the graph
-        adjList.remove(vertex);
+        public void addEdgeWithVertex(String src, String dest) {
+            if (!hasVertex(src)) {
+                addVertex(src);
+            }
+            if (!hasVertex(dest)) {
+                addVertex(dest);
+            }
+            adjList.get(src).add(dest);
+            adjList.get(dest).add(src);
+        }
 
-        return true; // Successfully removed the vertex
-    }
+        public boolean removeEdge(String src, String dest) {
+            if (!hasVertex(src) || !hasVertex(dest)) {
+                return false;
+            }
+            adjList.get(src).remove(dest);
+            adjList.get(dest).remove(src);
+            return true;
+        }
 
-    public void printGraph() {
-        for (String vertex : adjList.keySet()) {
-            System.out.print(vertex + " -> ");
-            System.out.println(adjList.get(vertex));
+        public void printGraph() {
+            for (String vertex : adjList.keySet()) {
+                System.out.print(vertex + " -> ");
+                System.out.println(adjList.get(vertex));
+            }
         }
     }
-}
