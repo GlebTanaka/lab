@@ -40,4 +40,39 @@ public class Heap {
         }
     }
 
+    public Integer extractMax() {
+        if (this.heap.isEmpty()) {
+            return null;
+        }
+        int max = this.heap.get(0);
+        this.heap.set(0, this.heap.get(this.heap.size() - 1));
+        // this.heap.removeLast(); is better for java 21 +
+        this.heap.remove(this.heap.size() - 1);
+        if (!this.heap.isEmpty()) {
+            sinkDown(0);
+        }
+        return max;
+    }
+
+    private void sinkDown(int index) {
+        int maxIndex = index;
+        while (true) {
+            int leftChildIndex = this.leftChildIndex(index);
+            int rightChildIndex = this.rightChildIndex(index);
+            if (leftChildIndex < heap.size() && heap.get(leftChildIndex) > heap.get(maxIndex)) {
+                maxIndex = leftChildIndex;
+            }
+            if (rightChildIndex < heap.size() && heap.get(rightChildIndex) > heap.get(maxIndex)) {
+                maxIndex = rightChildIndex;
+            }
+            if (maxIndex != index) {
+                swap(index, maxIndex);
+                index = maxIndex;
+            } else {
+                return;
+            }
+        }
+    }
+
+
 }
