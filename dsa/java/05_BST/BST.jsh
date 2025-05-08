@@ -1,5 +1,9 @@
 import java.util.Arrays;
-import java.util.stream.Collectors;public class BinarySearchTree {
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.stream.Collectors;
+
+public class BinarySearchTree {
 
     private Node root;
 
@@ -233,4 +237,107 @@ import java.util.stream.Collectors;public class BinarySearchTree {
         }
         rInsert(root, value);
     }
+
+    private Node deleteNode(Node currentNode, int value) {
+        if (currentNode == null) {
+            return null;
+        }
+        if (value < currentNode.value) {
+            currentNode.left = deleteNode(currentNode.left, value);
+        } else if (value > currentNode.value) {
+            currentNode.right = deleteNode(currentNode.right, value);
+        } else {
+            if (isLeaf(currentNode)) {
+                return null;
+            } else if (!hasLeft(currentNode)) {
+                currentNode = currentNode.right;
+            } else if (!hasRight(currentNode)) {
+                currentNode = currentNode.left;
+            } else {
+                int minValue = minValue(currentNode.right);
+                currentNode.value = minValue;
+                currentNode.right = deleteNode(currentNode.right, minValue);
+            }
+        }
+        return currentNode;
+    }
+
+    private int minValue(Node currentNode) {
+        while (currentNode.left != null) {
+            currentNode = currentNode.left;
+        }
+        return currentNode.value;
+    }
+
+    public void deleteNode(int value) {
+        root = deleteNode(root, value);
+    }
+
+    // ------ tree traversal ---------------------
+    // BFS
+    public ArrayList<Integer> bfs() {
+        Node current = root;
+        // using Javas implemented Queue for a LinkedList
+        Queue<Node> queue = new LinkedList<>();
+        ArrayList<Integer> result = new ArrayList<>();
+        queue.add(current);
+
+        while (!queue.isEmpty()) {
+            current = queue.remove();
+            result.add(current.value);
+            if (current.left != null) {
+                queue.add(current.left);
+            }
+            if (current.right != null) {
+                queue.add(current.right);
+            }
+        }
+        return result;
+    }
+
+    // DFS preorder
+    public ArrayList<Integer> dfsPreorder() {
+        ArrayList<Integer> result = new ArrayList<>();
+        traversePreorder(root, result);
+        return result;
+    }
+
+    private void traversePreorder(Node current, ArrayList<Integer> result) {
+        if (current == null) return;
+
+        // Preorder: Root -> Left -> Right
+        result.add(current.value);           // Process root
+        traversePreorder(current.left, result);   // Process left subtree
+        traversePreorder(current.right, result);  // Process right subtree
+    }
+
+    // DFS postorder
+    public ArrayList<Integer> dfsPostorder() {
+        ArrayList<Integer> result = new ArrayList<>();
+        traversePostorder(root, result);
+        return result;
+    }
+
+    private void traversePostorder(Node current, ArrayList<Integer> result) {
+        if (current == null) return;
+
+        traversePostorder(current.left, result);   // Process left
+        traversePostorder(current.right, result);  // Process right
+        result.add(current.value);                // Process root
+    }
+
+    // DFS inorder
+    public ArrayList<Integer> dfsInorder() {
+        ArrayList<Integer> result = new ArrayList<>();
+        traverseInorder(root, result);
+        return result;
+    }
+    private void traverseInorder(Node current, ArrayList<Integer> result) {
+        if (current == null) return;
+
+        traverseInorder(current.left, result);    // Process left
+        result.add(current.value);                // Process root
+        traverseInorder(current.right, result);   // Process right
+    }
+
 }
