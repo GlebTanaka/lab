@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\glta\\Practice\\lab\\azure\\GlebApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{649E8254-58D9-48AC-93ED-412C75C52FE5}|GlebApp\\GlebApp.csproj|c:\\users\\glta\\practice\\lab\\azure\\glebapp\\glebapp\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{649E8254-58D9-48AC-93ED-412C75C52FE5}|GlebApp\\GlebApp.csproj|solutionrelative:glebapp\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{649E8254-58D9-48AC-93ED-412C75C52FE5}|GlebApp\\GlebApp.csproj|c:\\users\\glta\\practice\\lab\\azure\\glebapp\\glebapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{649E8254-58D9-48AC-93ED-412C75C52FE5}|GlebApp\\GlebApp.csproj|solutionrelative:glebapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\glta\\Practice\\lab\\azure\\GlebApp\\GlebApp\\appsettings.json",
+              "RelativeDocumentMoniker": "GlebApp\\appsettings.json",
+              "ToolTip": "C:\\Users\\glta\\Practice\\lab\\azure\\GlebApp\\GlebApp\\appsettings.json*",
+              "RelativeToolTip": "GlebApp\\appsettings.json*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-10-20T12:17:21.615Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\glta\\Practice\\lab\\azure\\GlebApp\\GlebApp\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "GlebApp\\Pages\\Index.cshtml",
+              "ToolTip": "C:\\Users\\glta\\Practice\\lab\\azure\\GlebApp\\GlebApp\\Pages\\Index.cshtml*",
+              "RelativeToolTip": "GlebApp\\Pages\\Index.cshtml*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-20T12:08:50.287Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
