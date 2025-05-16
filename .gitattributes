@@ -1,3 +1,4 @@
 # prefer the version from the subtree repo during merges
 java/** merge=theirs
 python/** merge=theirs
+dsa/** merge=theirs
