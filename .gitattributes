@@ -3,3 +3,5 @@ java/** merge=theirs
 python/** merge=theirs
 dsa/** merge=theirs
 SQL/** merge=theirs
+azure/** merge=theirs
+
