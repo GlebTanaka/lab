@@ -5,4 +5,5 @@ dsa/** merge=theirs
 SQL/** merge=theirs
 azure/** merge=theirs
 rust/** merge=theirs
+javascript/** merge=theirs
 
