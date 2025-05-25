@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Box Clicker Demo</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            margin: 10px;
+            display: inline-block;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+
+        .box:hover {
+            background-color: #2980b9;
+        }
+
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="boxContainer"></div>
+
+<script>
+    const container = document.getElementById('boxContainer');
+
+    // Using let to create boxes (correct way)
+    for (let i = 0; i < 5; i++) {
+        const box = document.createElement('div');
+        box.className = 'box';
+        box.textContent = i;
+
+        box.addEventListener('click', () => {
+            alert(`Box index: ${i}`);
+        });
+
+        container.appendChild(box);
+    }
+
+    // If we had used var instead of let, all boxes would show '5' when clicked
+    // because var is function-scoped and the value of i would be 5 when the
+    // callbacks execute
+</script>
+</body>
+</html>
