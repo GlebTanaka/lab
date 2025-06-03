@@ -1,0 +1,110 @@
+// Import commonly used classes
+import java.util.*;
+import java.util.stream.*;
+
+// Let's create some collections to work with
+List<String> fruits = Arrays.asList("apple", "banana", "orange", "mango");
+Map<String, Integer> ages = new HashMap<>() {{
+    put("John", 25);
+    put("Alice", 30);
+    put("Bob", 35);
+}};
+Set<Integer> numbers = new HashSet<>(Arrays.asList(1, 2, 3, 4, 5));
+
+// Example 1: Basic Iteration
+System.out.println("=== Basic Iteration ===");
+// Java enhanced for-loop (similar to JavaScript's for...of)
+System.out.println("Java style:");
+for (String fruit : fruits) {
+    System.out.println(fruit);
+}
+
+// Java 8+ stream forEach (more similar to JavaScript's forEach)
+System.out.println("\nStream style (like JavaScript):");
+fruits.forEach(fruit -> System.out.println(fruit));
+
+// Example 2: Map Operations
+System.out.println("\n=== Map Operations ===");
+// Traditional Java way
+System.out.println("Java style:");
+for (Map.Entry<String, Integer> entry : ages.entrySet()) {
+    System.out.println(entry.getKey() + ": " + entry.getValue());
+}
+
+// Stream way (more JavaScript-like)
+System.out.println("\nStream style (like JavaScript):");
+ages.forEach((name, age) -> System.out.println(name + ": " + age));
+
+// Example 3: Filtering and Mapping
+System.out.println("\n=== Filtering and Mapping ===");
+// Create a list of numbers
+List<Integer> numbersList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+// Java stream operations (similar to JavaScript array methods)
+System.out.println("Even numbers doubled:");
+List<Integer> evenDoubled = numbersList.stream()
+    .filter(n -> n % 2 == 0)    // like JavaScript's filter()
+    .map(n -> n * 2)            // like JavaScript's map()
+    .collect(Collectors.toList()); // Java needs collect() unlike JavaScript
+System.out.println(evenDoubled);
+
+// Example 4: Reduction Operations
+System.out.println("\n=== Reduction Operations ===");
+// Sum using stream (similar to JavaScript reduce)
+int sum = numbersList.stream()
+    .reduce(0, Integer::sum);
+System.out.println("Sum: " + sum);
+
+// Example 5: Finding Elements
+System.out.println("\n=== Finding Elements ===");
+// Find first even number (similar to JavaScript's find)
+Optional<Integer> firstEven = numbersList.stream()
+    .filter(n -> n % 2 == 0)
+    .findFirst();
+System.out.println("First even number: " + firstEven.orElse(null));
+
+// Example 6: Collecting Results
+System.out.println("\n=== Collecting Results ===");
+// Group numbers by even/odd (similar to JavaScript's groupBy)
+Map<String, List<Integer>> evenOddGroups = numbersList.stream()
+    .collect(Collectors.groupingBy(n -> n % 2 == 0 ? "even" : "odd"));
+System.out.println(evenOddGroups);
+
+// Example 7: String Operations
+System.out.println("\n=== String Operations ===");
+String text = "Hello, World!";
+// In Java, strings aren't directly iterable like in JavaScript
+System.out.println("Characters:");
+text.chars()
+    .mapToObj(ch -> String.valueOf((char)ch))
+    .forEach(System.out::println);
+
+// Example 8: Set Operations
+System.out.println("\n=== Set Operations ===");
+Set<Integer> set1 = new HashSet<>(Arrays.asList(1, 2, 3));
+Set<Integer> set2 = new HashSet<>(Arrays.asList(2, 3, 4));
+
+// Set operations
+Set<Integer> union = new HashSet<>(set1);
+union.addAll(set2);
+System.out.println("Union: " + union);
+
+Set<Integer> intersection = new HashSet<>(set1);
+intersection.retainAll(set2);
+System.out.println("Intersection: " + intersection);
+
+// Example 9: Functional Interface Usage
+System.out.println("\n=== Functional Interface Usage ===");
+// Similar to JavaScript's arrow functions
+fruits.stream()
+    .filter(fruit -> fruit.length() > 5)
+    .map(String::toUpperCase)
+    .forEach(System.out::println);
+
+// Example 10: Optional Usage (similar to JavaScript's nullable handling)
+System.out.println("\n=== Optional Usage ===");
+Optional<String> maybeFruit = fruits.stream()
+    .filter(f -> f.startsWith("b"))
+    .findFirst();
+
+maybeFruit.ifPresent(fruit -> System.out.println("Found: " + fruit));
