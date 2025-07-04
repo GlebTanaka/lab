@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Space People API Test</title>
+</head>
+<body>
+<div id="result"></div>
+
+<script>
+    const spacePeople = () => {
+        return new Promise((resolve, reject) => {
+            const api = "http://api.open-notify.org/astros.json";
+            const request = new XMLHttpRequest();
+            request.open("GET", api);
+            request.onload = () => {
+                if (request.status === 200) {
+                    resolve(JSON.parse(request.response));
+                } else {
+                    reject(new Error(`Request failed with status: ${request.status}`));
+                }
+            };
+            request.onerror = () => reject(new Error('Network error occurred'));
+            request.send();
+        });
+    };
+
+    // Use the function and display results
+    spacePeople()
+        .then(data => {
+            document.getElementById('result').innerHTML =
+                `There are ${data.number} people in space right now!`;
+        })
+        .catch(error => {
+            document.getElementById('result').innerHTML =
+                `Error: ${error.message}`;
+        });
+</script>
+</body>
+</html>
