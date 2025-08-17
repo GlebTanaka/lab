@@ -28,4 +28,10 @@ It was completed as part of the *Real-World SQL Portfolio Builder*, and showcase
 - Run sanity checks: table counts, orphan FK checks, status distribution, and booking_date ranges.
 - Commit each step (schemas, staging tables, loads, final tables, transforms, checks) as separate Git commits for clear incremental progress.
 
+## Reset database (start fresh)
+- Use reset.sql to drop and recreate the project role and database, then re-create schemas.
+- Run it from a maintenance DB (e.g., postgres) with autocommit enabled; requires sufficient privileges to terminate sessions.
+- In psql, it works end-to-end (uses \connect). In DataGrip, run the DROP/CREATE parts from postgres, then switch to skyhub_db and run the schema lines.
+- This will erase all data in skyhub_db; re-run the load steps afterward.
+
 (continue expanding on this as part of your project)
