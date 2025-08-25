@@ -9,7 +9,8 @@ Run this file directly to see the output:
     python class_methods.py
 """
 from __future__ import annotations
-from datetime import datetime
+from datetime import datetime, UTC
+
 
 class User:
     # class-level registry and counters (shared across all instances)
@@ -19,7 +20,7 @@ class User:
     def __init__(self, username: str, created_at: datetime | None = None):
         self.id = self.__class__._next_id
         self.username = username
-        self.created_at = created_at or datetime.utcnow()
+        self.created_at = created_at or datetime.now(UTC)
         # register this instance and advance counter
         self.__class__._registry[self.id] = self
         self.__class__._next_id += 1
@@ -53,3 +54,4 @@ if __name__ == "__main__":
     print("Created:", u2)
     print("Total users:", User.total_users())
     print("Lookup by id 1:", User.by_id(1))
+
