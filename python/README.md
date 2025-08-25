@@ -30,3 +30,8 @@ This repository contains various Python topics and examples for learning purpose
 - **[race_conditions.py](thread_safety/race_conditions.py)**: Demonstrates how threads work and how race conditions can occur when multiple threads access shared data without proper synchronization.
 - **[solving_with_locks.py](thread_safety/solving_with_locks.py)**: Shows how to use threading.Lock to protect shared resources and prevent race conditions, with a comparison of results with and without locks.
 - **[avoiding_deadlocks_with_rlock.py](thread_safety/avoiding_deadlocks_with_rlock.py)**: Demonstrates how deadlocks can occur with regular locks and how to use threading.RLock (reentrant lock) to avoid them, with practical examples comparing Lock vs RLock.
+
+### Instance, Class, and Static Methods
+- **[instance_methods.py](instance_class_static_methods/instance_methods.py)**: Shows how instance methods operate on per-object state via `self`.
+- **[class_methods.py](instance_class_static_methods/class_methods.py)**: Demonstrates `@classmethod` for class-level state and alternative constructors using `cls`.
+- **[static_methods.py](instance_class_static_methods/static_methods.py)**: Provides `@staticmethod` utilities that don't depend on `self` or `cls`.
