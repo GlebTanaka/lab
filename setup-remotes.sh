@@ -1,30 +1,36 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 # Script to re-add git subtree remotes for the lab monorepo
 # This is useful when setting up the repo fresh on a new machine.
+#
+# Compatible with bash 3.2+ (macOS) and bash 4+ (Linux).
+# Uses simple "name=url" pairs instead of associative arrays.
 
 # Mapping of remote name to its repository URL
+# Format: "remote-name=repository-url"
 # Note: Remotes are named <topic>-remote to match existing subtree commands.
-declare -A REMOTES=(
-    ["azure-remote"]="git@github.com:GlebTanaka/lab-azure.git"             # Prefix: azure
-    ["cli-remote"]="git@github.com:GlebTanaka/lab-cli.git"                 # Prefix: cli
-    ["concurrency-remote"]="git@github.com:GlebTanaka/lab-concurrency.git" # Prefix: concurrency
-    ["cpp-remote"]="git@github.com:GlebTanaka/lab-cpp.git"                 # Prefix: cpp
-    ["dsa-remote"]="git@github.com:GlebTanaka/lab-dsa.git"                 # Prefix: dsa
-    ["go-remote"]="git@github.com:GlebTanaka/lab-go.git"                   # Prefix: go
-    ["java-remote"]="git@github.com:GlebTanaka/lab-java.git"               # Prefix: java
-    ["javascript-remote"]="git@github.com:GlebTanaka/lab-javascript.git"   # Prefix: javascript
-    ["python-remote"]="git@github.com:GlebTanaka/lab-python.git"           # Prefix: python
-    ["rust-remote"]="git@github.com:GlebTanaka/lab-rust.git"               # Prefix: rust
-    ["sql-remote"]="git@github.com:GlebTanaka/lab-sql.git"                 # Prefix: SQL
-    ["xml-remote"]="git@github.com:GlebTanaka/lab-xml.git"                 # Prefix: xml
-)
+REMOTES="
+azure-remote=git@github.com:GlebTanaka/lab-azure.git
+cli-remote=git@github.com:GlebTanaka/lab-cli.git
+concurrency-remote=git@github.com:GlebTanaka/lab-concurrency.git
+cpp-remote=git@github.com:GlebTanaka/lab-cpp.git
+dsa-remote=git@github.com:GlebTanaka/lab-dsa.git
+go-remote=git@github.com:GlebTanaka/lab-go.git
+java-remote=git@github.com:GlebTanaka/lab-java.git
+javascript-remote=git@github.com:GlebTanaka/lab-javascript.git
+python-remote=git@github.com:GlebTanaka/lab-python.git
+rust-remote=git@github.com:GlebTanaka/lab-rust.git
+sql-remote=git@github.com:GlebTanaka/lab-sql.git
+xml-remote=git@github.com:GlebTanaka/lab-xml.git
+"
 
 echo "Setting up subtree remotes..."
 
-for NAME in "${!REMOTES[@]}"; do
-    URL="${REMOTES[$NAME]}"
-    
+for ENTRY in $REMOTES; do
+    NAME="${ENTRY%%=*}"
+    URL="${ENTRY#*=}"
+
     if git remote | grep -q "^$NAME$"; then
         echo "Remote '$NAME' already exists. Skipping."
     else
