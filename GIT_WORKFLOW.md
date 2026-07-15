@@ -16,6 +16,14 @@ Before starting, ensure all subtree remotes are configured. You can use the prov
 ./setup-remotes.sh
 ```
 
+To check whether any subtree remote or local topic branch differs from the monorepo state, use the read-only status script:
+
+```bash
+./check-subtree-status.sh
+```
+
+The script fetches the topic remotes and compares Git tree hashes. If a topic changed on its separate remote, it prints the exact `git subtree pull` command needed to update `main`.
+
 ## Development Workflow
 
 To work on a specific project (e.g., Java):
@@ -54,6 +62,7 @@ Using `--squash` keeps the `main` branch history clean by consolidating the topi
 | Action | Command |
 | :--- | :--- |
 | **Setup Remotes** | `./setup-remotes.sh` |
+| **Check Subtree Status** | `./check-subtree-status.sh` |
 | **Switch to Topic** | `git checkout <topic>` |
 | **Push Changes** | `git subtree push --prefix=<topic> <topic>-remote main` |
 | **Pull to Main** | `git subtree pull --prefix=<topic> <topic>-remote main --squash` |
