@@ -5,20 +5,28 @@ set -euo pipefail
 # It compares each topic remote with:
 #   1. the matching subtree folder on main, and
 #   2. the matching local orphan/topic branch, if it exists.
+#
+# Most topics use the same lowercase name for:
+#   - the topic branch
+#   - the remote name prefix
+#   - the folder on main
+#
+# A few topics may use a different folder name on main, so each entry is
+# defined as "topic:folder".
 
-TOPICS="
-azure
-cli
-concurrency
-cpp
-dsa
-go
-java
-javascript
-python
-rust
-sql
-xml
+TOPIC_MAPPINGS="
+azure:azure
+cli:cli
+concurrency:concurrency
+cpp:cpp
+dsa:dsa
+go:go
+java:java
+javascript:javascript
+python:python
+rust:rust
+sql:SQL
+xml:xml
 "
 
 echo "Checking subtree status..."
@@ -35,7 +43,9 @@ if [ -n "$(git status --porcelain)" ]; then
     echo ""
 fi
 
-for TOPIC in $TOPICS; do
+for MAPPING in $TOPIC_MAPPINGS; do
+    TOPIC=${MAPPING%%:*}
+    FOLDER=${MAPPING#*:}
     REMOTE="$TOPIC-remote"
 
     echo "----------------------------------------"
@@ -58,16 +68,16 @@ for TOPIC in $TOPICS; do
 
     REMOTE_TREE=$(git rev-parse "$REMOTE/main^{tree}")
 
-    if git cat-file -e "main:$TOPIC" 2>/dev/null; then
-        MAIN_TREE=$(git rev-parse "main:$TOPIC")
+    if git cat-file -e "main:$FOLDER" 2>/dev/null; then
+        MAIN_TREE=$(git rev-parse "main:$FOLDER")
         if [ "$MAIN_TREE" = "$REMOTE_TREE" ]; then
-            echo "$TOPIC: OK - main subtree matches $REMOTE/main"
+            echo "$TOPIC: OK - main subtree '$FOLDER' matches $REMOTE/main"
         else
-            echo "$TOPIC: CHANGED - main subtree differs from $REMOTE/main"
-            echo "  To update main: git checkout main && git subtree pull --prefix=$TOPIC $REMOTE main --squash"
+            echo "$TOPIC: CHANGED - main subtree '$FOLDER' differs from $REMOTE/main"
+            echo "  To update main: git checkout main && git subtree pull --prefix=$FOLDER $REMOTE main --squash"
         fi
     else
-        echo "$TOPIC: MISSING ON MAIN - folder '$TOPIC' does not exist on main"
+        echo "$TOPIC: MISSING ON MAIN - folder '$FOLDER' does not exist on main"
     fi
 
     if git show-ref --verify --quiet "refs/heads/$TOPIC"; then
