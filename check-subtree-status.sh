@@ -23,6 +23,7 @@ dsa:dsa
 go:go
 java:java
 javascript:javascript
+math:math
 python:python
 rust:rust
 sql:SQL
@@ -81,12 +82,23 @@ for MAPPING in $TOPIC_MAPPINGS; do
     fi
 
     if git show-ref --verify --quiet "refs/heads/$TOPIC"; then
-        LOCAL_TOPIC_TREE=$(git rev-parse "$TOPIC^{tree}")
+        # Topic branches normally retain the folder prefix; standalone branches do not.
+        PREFIXED_TOPIC=false
+        if [ "$(git cat-file -t "$TOPIC:$FOLDER" 2>/dev/null || true)" = "tree" ]; then
+            LOCAL_TOPIC_TREE=$(git rev-parse "$TOPIC:$FOLDER")
+            PREFIXED_TOPIC=true
+        else
+            LOCAL_TOPIC_TREE=$(git rev-parse "$TOPIC^{tree}")
+        fi
         if [ "$LOCAL_TOPIC_TREE" = "$REMOTE_TREE" ]; then
             echo "$TOPIC: OK - local topic branch matches $REMOTE/main"
         else
             echo "$TOPIC: CHANGED - local topic branch differs from $REMOTE/main"
-            echo "  To update branch: git checkout $TOPIC && git pull $REMOTE main"
+            if [ "$PREFIXED_TOPIC" = true ]; then
+                echo "  Review differences using GIT_WORKFLOW.md; do not directly merge the unprefixed remote into this topic branch."
+            else
+                echo "  To update branch: git checkout $TOPIC && git pull $REMOTE main"
+            fi
         fi
     else
         echo "$TOPIC: MISSING LOCAL BRANCH - local branch '$TOPIC' does not exist"

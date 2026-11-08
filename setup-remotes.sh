@@ -19,6 +19,7 @@ dsa-remote=git@github.com:GlebTanaka/lab-dsa.git
 go-remote=git@github.com:GlebTanaka/lab-go.git
 java-remote=git@github.com:GlebTanaka/lab-java.git
 javascript-remote=git@github.com:GlebTanaka/lab-javascript.git
+math-remote=git@github.com:GlebTanaka/lab-math.git
 python-remote=git@github.com:GlebTanaka/lab-python.git
 rust-remote=git@github.com:GlebTanaka/lab-rust.git
 sql-remote=git@github.com:GlebTanaka/lab-sql.git

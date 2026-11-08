@@ -22,7 +22,10 @@ To check whether any subtree remote or local topic branch differs from the monor
 ./check-subtree-status.sh
 ```
 
-The script fetches the topic remotes and compares Git tree hashes. If a topic changed on its separate remote, it prints the exact `git subtree pull` command needed to update `main`.
+The script fetches the topic remotes and compares Git tree hashes. A difference
+does not establish which side is ahead; review local and remote changes before
+using its suggested subtree pull command. For prefixed topic branches it compares
+the topic folder, not the entire branch root.
 
 ## Development Workflow
 
@@ -56,6 +59,55 @@ git checkout main
 git subtree pull --prefix=java java-remote main --squash
 ```
 Using `--squash` keeps the `main` branch history clean by consolidating the topic branch's commits into a single merge commit.
+
+## Mathematics Track
+
+- Monorepo prefix: `math/`
+- Local topic branch: `math` (contains the `math/` directory)
+- Remote: `math-remote`, pointing to `git@github.com:GlebTanaka/lab-math.git`
+- Remote branch: `main` (contains the contents of `math/` at its root)
+- First learning track: `math/konkrete-mathematik/`
+
+The initial topic commit was published with `git subtree push`, then imported
+into the monorepo with `git subtree add --prefix=math math-remote main --squash`.
+The add operation is only for first-time integration; subsequent updates use pull.
+The local `math` branch also has synchronization metadata established with
+`git subtree split --prefix=math --rejoin`, allowing subtree pulls on that branch.
+
+For work in this checkout, start with a clean working tree and use the topic branch:
+
+```sh
+git switch math
+git subtree pull --prefix=math math-remote main --squash
+# Edit files inside math/, then stage only your intended changes.
+git add math/
+git commit -m "Add mathematics exercise"
+git subtree push --prefix=math math-remote main
+git switch main
+git subtree pull --prefix=math math-remote main --squash
+git push origin main
+```
+
+Switching to an isolated topic branch removes the other tracked topic folders
+from the working tree until you switch back to `main`.
+
+On another machine, a standalone clone is often simpler:
+
+```sh
+git clone git@github.com:GlebTanaka/lab-math.git
+```
+
+Work and push normally inside that standalone clone. In the lab checkout, run
+`bash ./setup-remotes.sh`, then pull its changes into `main` using the subtree
+pull command above. Do not clone `lab-math` inside the monorepo's `math/` folder.
+
+The prefixed local `math` branch is not automatically updated by changes from a
+standalone clone. Before returning to it, compare it with `math-remote/main`.
+Do not run a plain `git pull math-remote main` on the prefixed branch: the two
+trees have different layouts. Use the subtree pull command on the initialized
+`math` branch as shown above. Resolve any conflicts before pushing; never
+force-push over independent work. Older topic branches may lack subtree-import
+metadata and need a separate setup review before using subtree pull.
 
 ## Summary of Commands
 

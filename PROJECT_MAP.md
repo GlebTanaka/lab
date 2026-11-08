@@ -20,12 +20,10 @@ Useful root scripts:
 - `setup-remotes.sh`: configures subtree remotes
 - `check-subtree-status.sh`: read-only status check for subtree remotes and local topic branches
 
-As of July 16, 2026:
-
-- `main` is in sync with all configured topic remotes checked by `check-subtree-status.sh`
-- most local topic branches do not exist in this clone
-- the local `dsa` branch exists but differs from `dsa-remote/main`
-- the status script currently expects a lowercase `sql` folder, while the repo uses uppercase `SQL/`
+Run `bash ./check-subtree-status.sh` for current synchronization status.
+Local topic branches are optional and may differ between machines. The checker
+maps topic identifiers to actual folder names, including `sql:SQL`, and compares
+the topic folder on prefixed branches rather than their entire root tree.
 
 ## Top-Level Layout
 
@@ -36,6 +34,7 @@ As of July 16, 2026:
 - `java/`: Java learning area with Java 25 examples and a Spring SOAP project
 - `cpp/`: C++ roadmap with placeholder subfolders for staged learning
 - `dsa/`: Data structures and algorithms across multiple languages
+- `math/`: Mathematics, starting with Edmund Weitz's Konkrete Mathematik
 - `SQL/`: SQL learning repo plus project-based work
 - `cli/`: Linux and PowerShell notes by topic
 - `xml/`: XML notes and folder structure for basics, XPath, XSD, XSLT, and Java
@@ -125,7 +124,19 @@ This folder currently contains two different modes of learning:
 Important naming note:
 
 - the folder is `SQL/` in this repo
-- the subtree status script currently checks for `sql/`
+- the subtree status script maps the topic identifier `sql` to `SQL/`
+
+### `math/`
+
+A subject-focused learning area, independently published as
+[`GlebTanaka/lab-math`](https://github.com/GlebTanaka/lab-math).
+
+- `konkrete-mathematik/`: follow-along workspace for Edmund Weitz's book
+- chapter notes, personal exercise attempts, and Python experiments
+- a track-specific `pyproject.toml` and space for algorithm tests
+
+The initial scaffold contains no completed exercises. Python is the exploration
+tool; mathematics is the subject. See [math/README.md](math/README.md).
 
 ### `cli/`
 
@@ -173,16 +184,10 @@ That mix is normal for a long-running personal lab, but it also means folder mat
 
 ## Notable Quirks
 
-### Case sensitivity drift
+### Folder casing
 
-There appear to be both `xml/` and `XML/` directories in the broader history or across machines.
-In the current root listing on this machine, `xml/` is present at the top level.
-This is worth keeping an eye on when working across case-sensitive and case-insensitive filesystems.
-
-### Subtree naming mismatch
-
-The status script checks for `sql`, but the repo folder is `SQL/`.
-That does not break the rest of the repo map, but it does create a false negative in the subtree check for SQL.
+Use the tracked folder names consistently across machines: `xml/` and `SQL/`.
+The explicit mapping in the status script handles the uppercase SQL prefix.
 
 ### Mixed maturity
 
