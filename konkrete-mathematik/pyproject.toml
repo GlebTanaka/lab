@@ -1,0 +1,9 @@
+[project]
+name = "konkrete-mathematik-lab"
+version = "0.1.0"
+description = "Personal mathematics experiments following Edmund Weitz"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.uv]
+package = false
