@@ -14,3 +14,6 @@ build/
 dist/
 .env
 .env.*
+
+# Machine-specific IDE MCP connection; keep shared agent instructions trackable.
+/konkrete-mathematik/.codex/config.toml
